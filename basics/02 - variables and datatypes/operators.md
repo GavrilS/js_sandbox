@@ -1,0 +1,1 @@
+# There is a concept called the spread operator in js which allows you to extract the items of an object or an array and pass them to whatever is requiring them in your code. The spread operator is this: '...object/array'

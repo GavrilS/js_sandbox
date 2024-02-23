@@ -14,6 +14,7 @@
 
     - you can see a javascript object properties in the console by using 'console.dir(<obj>);'
     - to get a date in javascript you do 'new Date()'
+    - for object types you can retrieve their fields with the 'object.field_name' syntax or with the 'object['field_name']' syntax
 
 ### Javascript is a dynamically-typed language. This means that you don't have to explicitly define the type of a variable when you create it.
 
