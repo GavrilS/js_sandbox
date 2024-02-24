@@ -38,3 +38,23 @@ function array_params(...params) {
 }
 
 console.log(array_params(1, 2, 3, 4, 5));
+
+// The window object
+console.log(`The window object: ${window}`)
+console.log(window)
+
+// Hoisting works with function declaration
+console.log(addStar('Test'))
+
+function addStar(param) {
+    return '*' + param;
+}
+
+// Hoisting doesn't work with function expressions
+// console.log(dolarSign('Test'))
+
+const dolarSign = function addDolarSign(param) {
+    return '$' + param;
+};
+
+console.log(dolarSign('Test'));
