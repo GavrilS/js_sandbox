@@ -58,3 +58,25 @@ const dolarSign = function addDolarSign(param) {
 };
 
 console.log(dolarSign('Test'));
+
+// Arrow functions
+const arrowAdd = (a, b) => {
+    return a+b;
+};
+
+// Arrow functions implicit return(works when the body of the function only has a return statement)
+const arrowSubtract = (a, b) => a - b;
+
+console.log(arrowAdd(5, 6));
+console.log(arrowSubtract(10, 3));
+
+// IIFE(Immediately Invoked Function Expression) - a function which is called as soon as it is declared
+(function () {
+    console.log('In IIFE!')
+    const hello = () => console.log('Hello from IIFE!');
+    hello();
+})();
+
+(function (name) {
+    console.log('Hello ' + name);
+})('John Doe');
