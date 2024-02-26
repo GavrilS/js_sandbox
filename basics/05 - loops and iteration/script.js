@@ -82,3 +82,21 @@ const longWords = items.filter(function(item) {
 });
 console.log('Filter');
 console.log(longWords);
+
+// array loops: map (executes the operation for each item in the array and returns the updated array)
+console.log('array loops: map');
+const numbers = [1, 2, 3, 4, 5];
+// This is the shorthand for the callback function, but we can use the long version as well
+const doubleNums = numbers.map((number) => number * 2);
+console.log(doubleNums);
+
+// array loops: reduce (reduces the values of an array to a single value - good example is the total of a 
+// shopping cart)
+console.log('array loops: reduce');
+// First argument is the next element we will process, current is the current total, 20 is the initial value
+// which can be set to anything or skipped all together
+const total = numbers.reduce((accumulator, current) => {
+    return accumulator + current;
+}, 20);
+
+console.log(total);
