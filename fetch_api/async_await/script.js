@@ -25,5 +25,23 @@ async function getUsers() {
     console.log(data);
 }
 
+async function handleError() {
+    try {
+        const res = await fetch('http://httpstat.us/200');
+        // const res = await fetch('http://httpstat.us/404');
+        // const res = await fetch('http://httpstat.us/500');
+
+        if (!res.ok) {
+            throw new Error('Request Failed!');
+        }
+
+        const data = await res.text();
+        console.log(data);
+    } catch(error) {
+        console.log('ERROR ', error);
+    }
+}
+
 getUser();
 getUsers();
+handleError();
