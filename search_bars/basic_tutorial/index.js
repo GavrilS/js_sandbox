@@ -25,20 +25,29 @@ function setList(results) {
 }
 setList(people);
 
+function clearList() {
+    // for (const li of list.children) {
+    //     list.removeChild(li);
+    // }
+    while ( list.firstChild ) {
+        list.removeChild(list.firstChild);
+    }
+}
+
 const searchInput = document.querySelector('.input');
 searchInput.addEventListener('input', (e) => {
     let value = e.target.value;
 
-    if (value && value.trim().lenght > 0) {
+    if (value && value.trim().length > 0) {
         value = value.trim().toLowerCase();
-
+        clearList();
         setList(people.filter(person => {
-            return person.name.toLowerCase().includes(value) || person.email.toLowerCase().includes(value)
+            return person.name.toLowerCase().includes(value) || person.email.toLowerCase().includes(value);
         }));
     }
 })
 
 const clearButton = document.querySelector('.clear-results');
 clearButton.addEventListener('click', () => {
-
+    clearList();
 })
