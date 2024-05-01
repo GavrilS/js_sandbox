@@ -14,6 +14,7 @@ const people = [
 
 const list = document.querySelector('.results-list');
 function setList(results) {
+    clearList();
     for (const person of results) {
         // console.log(person);
         const resultItem = document.createElement('li');
@@ -21,6 +22,10 @@ function setList(results) {
         const text = document.createTextNode('Name: ' + person.name + '; Email: ' + person.email);
         resultItem.appendChild(text);
         list.appendChild(resultItem);
+    }
+
+    if ( results.length === 0 ) {
+        noResults();
     }
 }
 setList(people);
@@ -34,13 +39,20 @@ function clearList() {
     }
 }
 
+function noResults() {
+    const error = document.createElement('li');
+    error.classList.add('error-message');
+    const text = document.createTextNode('No results found...');
+    error.appendChild(text);
+    list.appendChild(error);
+}
+
 const searchInput = document.querySelector('.input');
 searchInput.addEventListener('input', (e) => {
     let value = e.target.value;
 
     if (value && value.trim().length > 0) {
         value = value.trim().toLowerCase();
-        clearList();
         setList(people.filter(person => {
             return person.name.toLowerCase().includes(value) || person.email.toLowerCase().includes(value);
         }));
