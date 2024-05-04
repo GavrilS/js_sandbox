@@ -90,6 +90,13 @@
     font-size: 18px;
     border-radius: 4px;
     box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    font-weight: 500;
+    transition: transform 0.2s;
+}
+
+.popup button:active {
+    transform: scale(0.95);
 }
 
 #get-report h2 {
