@@ -39,3 +39,10 @@ document.addEventListener('click', (e) => {
         }
     }
 });
+
+document.addEventListener('keyup', (e) => {
+    // console.log('Key up event: \n', e);
+    if (e.key === 'Escape' && activePopup) {
+        closePopup();
+    }
+});
