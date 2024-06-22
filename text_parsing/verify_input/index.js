@@ -26,6 +26,8 @@ function parse_cron(cron) {
     console.log('The expression passes the tests!');
     console.log(cron);
     console.log('====================================');
+
+    return true;
 }
 
 
