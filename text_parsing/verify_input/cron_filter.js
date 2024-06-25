@@ -1,7 +1,6 @@
-const HOUR_SPECIAL_VALUES = [',', '-', '*', '/']
-const HOUR_MIN_MAX_NUMERIC_VALUES = [0, 23]
-
-
+// Check hour values
+const HOUR_SPECIAL_VALUES = [',', '-', '*', '/'];
+const HOUR_MIN_MAX_NUMERIC_VALUES = [0, 23];
 
 function verifyHourValues(cron_hour_segment) {
     if (cron_hour_segment.includes(HOUR_SPECIAL_VALUES[2]) && 
@@ -33,7 +32,7 @@ function verifyHourValues(cron_hour_segment) {
 }
 
 
-function checkRanges(range) {
+function checkHourRanges(range) {
     rangeSplit = range.split('-');
     if (rangeSplit.length !== 2) {
         throw new Error('Wrong usage of the - symbol in a cron!');
@@ -53,4 +52,23 @@ function checkNumericValue(value, min, max) {
         throw new Error('Wrong hour value supplied in the cron expression!');
     }
     return true;
+}
+
+
+// Check weekday 
+const WEEK_SPECIAL_VALUES = [',','-','*','?'];
+const WEEK_VALUES = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
+
+function verifyWeekdayValues(cronWeekSegment) {
+    if (cronWeekSegment.includes(WEEK_SPECIAL_VALUES[2]) ||
+        cronWeekSegment.includes(WEEK_SPECIAL_VALUES[3]) &&
+        cronWeekSegment.length !== 1
+    ) {
+        throw new Error('Wrong usage of * or ? in a cron in the Weekday segment!');
+    } else if (cronWeekSegment.includes(WEEK_SPECIAL_VALUES[0])) {
+        cronSplit = cronWeekSegment.split(',');
+        cronSplit.forEach(item => {
+            
+        })
+    }
 }
