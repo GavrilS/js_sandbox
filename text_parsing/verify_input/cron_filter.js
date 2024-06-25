@@ -1,3 +1,20 @@
+
+// Check cron expression lenght
+const CRON_EXPR_MAX_LENGTH = 6;
+
+function checkCronLength(cronArray) {
+    cronItems = cronArray.split(', ');
+    cronItems.forEach(item => {
+        segments = item.split(' ');
+        if (segments.length !== CRON_EXPR_MAX_LENGTH) {
+            throw new Error('Wrong length for cron expression! There need to be values for 6 segments in a cron expression!');
+        }
+    });
+    return true;
+}
+
+
+
 // Check hour values
 const HOUR_SPECIAL_VALUES = [',', '-', '*', '/'];
 const HOUR_MIN_MAX_NUMERIC_VALUES = [0, 23];
