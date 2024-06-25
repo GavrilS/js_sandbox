@@ -57,7 +57,7 @@ function checkNumericValue(value, min, max) {
 
 // Check weekday 
 const WEEK_SPECIAL_VALUES = [',','-','*','?'];
-const WEEK_VALUES = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
+const WEEK_VALUES = ['MON','TUE','WED','THU','FRI','SAT','SUN','1','2','3','4','5','6','7'];
 
 function verifyWeekdayValues(cronWeekSegment) {
     if (cronWeekSegment.includes(WEEK_SPECIAL_VALUES[2]) ||
@@ -68,7 +68,30 @@ function verifyWeekdayValues(cronWeekSegment) {
     } else if (cronWeekSegment.includes(WEEK_SPECIAL_VALUES[0])) {
         cronSplit = cronWeekSegment.split(',');
         cronSplit.forEach(item => {
-            
-        })
+            if (item.includes(WEEK_SPECIAL_VALUES[1])) {
+                cronItemSplit = item.split('-');
+                cronItemSplit.forEach(itemSplit => {
+                    checkWeekdayString(itemSplit);
+                });
+            } else {
+                checkWeekdayString(item);
+            }
+        });
+    } else if (cronWeekSegment.includes(WEEK_SPECIAL_VALUES[1])) {
+        cronSplit = cronWeekSegment.split('-');
+        cronSplit.forEach(item => {
+            checkWeekdayString(item);
+        });
+    } else {
+        checkWeekdayString(cronWeekSegment);
     }
+    return true;
+}
+
+
+function checkWeekdayString(value) {
+    if (!WEEK_VALUES.includes(value.toUpperCase())) {
+        throw new Error('Wrong value for Weekday in a cron!');
+    }
+    return true;
 }
