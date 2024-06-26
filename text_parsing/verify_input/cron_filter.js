@@ -1,3 +1,24 @@
+// Verify cron hour/weekday segments - the rest are not going to be updated
+const HOUR_SEGMENT_PLACE = 2;
+const WEEKDAY_SEGMENT_PLACE = 5;
+
+function verifyCronExpression(cronExpr) {
+    try{
+        console.log('Validating cron expressions: ', cronExpr);
+        checkCronLength(cronExpr);
+        crons = cronExpr.split(', ');
+        crons.forEach(cron => {
+            let segments = cron.split(' ');
+            verifyHourValues(segments[HOUR_SEGMENT_PLACE]);
+            verifyWeekdayValues(segments[WEEKDAY_SEGMENT_PLACE]);
+        });
+    } catch (error) {
+        console.log('Error verifying cron: ', error);
+        return false;
+    }
+    return true;
+}
+
 
 // Check cron expression lenght
 const CRON_EXPR_MAX_LENGTH = 6;
@@ -111,4 +132,9 @@ function checkWeekdayString(value) {
         throw new Error('Wrong value for Weekday in a cron!');
     }
     return true;
+}
+
+
+export {
+    verifyCronExpression
 }
