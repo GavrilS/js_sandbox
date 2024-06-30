@@ -22,12 +22,12 @@ function verifyCronExpression(cronExpr) {
 
 
 // Check cron expression lenght
-const CRON_EXPR_MAX_LENGTH = 6;
+const CRON_EXPR_LENGTH = 6;
 
 function checkCronLength(cronArray) {
     cronArray.forEach((item) => {
         let segments = item.split(' ');
-        if (segments.length !== CRON_EXPR_MAX_LENGTH) {
+        if (segments.length !== CRON_EXPR_LENGTH) {
             let messageBase = 'Wrong length for cron expression - ' + item
             let messageAddition = ' There needs to be values for 6 segments in a cron expression!'
             throw new Error(messageBase + messageAddition);
@@ -43,9 +43,9 @@ const HOUR_SPECIAL_VALUES = [',', '-', '*', '/'];
 const HOUR_MIN_MAX_NUMERIC_VALUES = [0, 23];
 
 function verifyHourValues(cronHourSegment) {
-    if (cronHourSegment.includes(HOUR_SPECIAL_VALUES[2]) && 
-        cronHourSegment.length > 1) {
-        throw new Error('Incorrect use of the * symbol in a cron hour segment: ' + cronHourSegment);
+    if (cronHourSegment.includes('*') && 
+        cronHourSegment.length === 1) {
+        return true;
     } else if (cronHourSegment.includes(HOUR_SPECIAL_VALUES[3])) {
         let cronSegmentSplit = cronHourSegment.split('/');
         if (cronSegmentSplit.length !== 2) {
@@ -56,6 +56,9 @@ function verifyHourValues(cronHourSegment) {
                 checkMultipleHourValues(value);
             } else if (value.includes(HOUR_SPECIAL_VALUES[1])) {
                 checkHourRanges(value);
+            } else {
+                let res = Number(value);
+                checkNumericValue(res, HOUR_MIN_MAX_NUMERIC_VALUES[0], HOUR_MIN_MAX_NUMERIC_VALUES[1]);
             }
         });
         
@@ -64,7 +67,8 @@ function verifyHourValues(cronHourSegment) {
     } else if (cronHourSegment.includes(HOUR_SPECIAL_VALUES[1])) {
         checkHourRanges(cronHourSegment);
     } else {
-        checkNumericValue(cronHourSegment, HOUR_MIN_MAX_NUMERIC_VALUES[0], HOUR_MIN_MAX_NUMERIC_VALUES[1]);
+        let res = Number(cronHourSegment)
+        checkNumericValue(res, HOUR_MIN_MAX_NUMERIC_VALUES[0], HOUR_MIN_MAX_NUMERIC_VALUES[1]);
     }
 
     return true;
@@ -97,6 +101,9 @@ function checkHourRanges(range) {
 }
 
 function checkNumericValue(value, min, max) {
+    if (Number.isNaN(value)) {
+        throw new Error('Wrong value passed for the hour segment.');
+    }
     if (value < min || value > max) {
         throw new Error('Wrong hour value supplied in the cron expression - ' + value);
     }
@@ -105,15 +112,14 @@ function checkNumericValue(value, min, max) {
 
 
 // Check weekday 
-const WEEK_SPECIAL_VALUES = [',','-','*','?'];
-const WEEK_VALUES = ['MON','TUE','WED','THU','FRI','SAT','SUN','1','2','3','4','5','6','7'];
+const WEEK_SPECIAL_VALUES = [',','-','*'];
+const WEEK_VALUES = ['MON','TUE','WED','THU','FRI','SAT','SUN','1','2','3','4','5','6','7','L'];
 
 function verifyWeekdayValues(cronWeekSegment) {
-    if ((cronWeekSegment.includes(WEEK_SPECIAL_VALUES[2]) ||
-        cronWeekSegment.includes(WEEK_SPECIAL_VALUES[3])) &&
+    if (cronWeekSegment.includes(WEEK_SPECIAL_VALUES[2]) &&
         cronWeekSegment.length !== 1
     ) {
-        throw new Error('Wrong usage of * or ? in a cron in the Weekday segment - ' + cronWeekSegment);
+        throw new Error('Wrong usage of * in a cron in the Weekday segment - ' + cronWeekSegment);
     } else if (cronWeekSegment.includes(WEEK_SPECIAL_VALUES[0])) {
         let cronSplit = cronWeekSegment.split(',');
         cronSplit.forEach(item => {
@@ -141,7 +147,7 @@ function verifyWeekdayValues(cronWeekSegment) {
 function checkWeekdayString(value) {
     console.log('Weekday value: ', value);
     if (!WEEK_VALUES.includes(value.toUpperCase()) &&
-        value !== WEEK_SPECIAL_VALUES[2] && value !== WEEK_SPECIAL_VALUES[3]) {
+        value !== WEEK_SPECIAL_VALUES[2]) {
         throw new Error('Wrong value for Weekday in a cron - ' + value);
     }
     return true;
@@ -152,8 +158,8 @@ function checkWeekdayString(value) {
 
 
 const PARSE_TEST_INPUT = [
-    '0 0/2 0-23 ? * MON-FRI',
-    '0 0/2 8 ? * SAT',
+    '0 0/2 0-23 ? * MON-FRI,SAT',
+    '0 0/2 12 ? * SAT',
     '0 0/2 17-23 ? * SUN'
 ]
 
